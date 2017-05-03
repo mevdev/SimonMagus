@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>graphics/bottom_on.png</file>
+        <file>graphics/bottom_off.png</file>
+        <file>graphics/right_on.png</file>
+        <file>graphics/right_off.png</file>
+        <file>graphics/center.png</file>
+        <file>graphics/top_on.png</file>
+        <file>graphics/top_off.png</file>
+        <file>graphics/left_on.png</file>
+        <file>graphics/left_off.png</file>
+    </qresource>
+</RCC>

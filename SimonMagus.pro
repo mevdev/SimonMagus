@@ -34,3 +34,17 @@ HEADERS  += mainwindow.h \
     game.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    graphics/bottom_on.png \
+    graphics/bottom_off.png \
+    graphics/right_on.png \
+    graphics/right_off.png \
+    graphics/center.png \
+    graphics/top_on.png \
+    graphics/top_off.png \
+    graphics/left_on.png \
+    graphics/left_off.png
+
+RESOURCES += \
+    images.qrc
