@@ -12,7 +12,7 @@ public:
 
     bool addUserReply(SimonColor simonColor);
 
-    QList<SimonColor> currentSimonColors(); //accessors
+    //QList<SimonColor> currentSimonColors(); //accessors
     GameMode currentGameMode();
 
     //How do I make reactive things for the UI?

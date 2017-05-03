@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+//#include <QMediaPlayer>
 #include "game.h"
 
 namespace Ui {
@@ -10,6 +11,7 @@ class MainWindow;
 
 class MainWindow : public QMainWindow
 {
+
     Q_OBJECT
 
 public:
@@ -26,10 +28,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    //QMediaPlayer player;
 
     void colorOffAll();
     void colorOn(SimonColor simonColor);
-    Button buttonForColor(SimonColor simonColor);
+    //Button buttonForColor(SimonColor simonColor);
     void startGame();
     void loseGame();
     //
