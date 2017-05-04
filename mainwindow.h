@@ -4,6 +4,7 @@
 #include <QMainWindow>
 //#include <QMediaPlayer>
 #include <QProcess>
+#include <QDebug>
 #include "game.h"
 
 namespace Ui {
@@ -20,11 +21,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_actionNew_Game_triggered();
-    void on_yellowButton_clicked();
-    void on_redButton_clicked();
-    void on_greenButton_clicked();
-    void on_orangeButton_clicked();
+
 
     void on_leftButton_pressed();
 
@@ -53,7 +50,16 @@ private:
     void loseGame();
     //
     void playSound(SimonColor simonColor);
+    void resizeButtons();
 
+    void on_actionNew_Game_triggered();
+    void on_yellowButton_clicked();
+    void on_redButton_clicked();
+    void on_greenButton_clicked();
+    void on_orangeButton_clicked();
+
+protected:
+  virtual void resizeEvent(QResizeEvent *);
 };
 
 #endif // MAINWINDOW_H

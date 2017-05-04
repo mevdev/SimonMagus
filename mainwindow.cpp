@@ -8,12 +8,23 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCentralWidget(ui->horizontalWidget);
+    ui->horizontalWidget->setStyleSheet("background-color:black;");
+
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     //delete player; //QObject is memory managed.
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+   //MainWindow::resizeEvent(event);
+   // Your code here.
+   qDebug("woo hoe bitch");
+   resizeButtons();
 }
 
 void MainWindow::on_actionNew_Game_triggered()
@@ -46,10 +57,6 @@ void MainWindow::colorOffAll() {
     //set to '_off' suffix
 }
 
-//To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
-
-//root@rwtwenty:/opt/sbin# echo 0 > /sys/class/leds/green_led/brightness
-//root@rwtwenty:/opt/sbin# echo 30 > /sys/class/leds/red_led/brightness
 
 void MainWindow::colorOn(SimonColor simonColor) {
     switch(simonColor) {
@@ -66,18 +73,29 @@ void MainWindow::colorOn(SimonColor simonColor) {
 
 void MainWindow::playSound(SimonColor simonColor) {
     QString soundPath;
+    int gLed = 0;
+    int rLed = 0;
+
     switch(simonColor) {
         case red:
         soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/0_e.wav";
+        rLed = 100;
+        gLed = 0;
         break;
     case yellow:
         soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/1_a.wav";
+        rLed = 50;
+        gLed = 50;
         break;
     case green:
         soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/2_cs.wav";
+        rLed = 0;
+        gLed = 100;
         break;
     case orange:
         soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/3_e.aiff";
+        rLed = 80;
+        gLed = 20;
         break;
     }
 
@@ -87,14 +105,15 @@ void MainWindow::playSound(SimonColor simonColor) {
     //exec
     //aplay -vv audio.wav
 
-   //also set light color
+   //also set light color!
+
+    //rLed, gLed
+    //To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
+    //root@rwtwenty:/opt/sbin# echo 0 > /sys/class/leds/green_led/brightness
+    //root@rwtwenty:/opt/sbin# echo 30 > /sys/class/leds/red_led/brightness
 
 
-
-
-    //not present fprintf("something something dark side"); //%s",soundPath.to);
-
-    //play sound.
+    //native qt play sound.
 //    if(player == NULL) {
 //        player = new QMediaPlayer;
 //    } else {
@@ -163,5 +182,35 @@ void MainWindow::on_bottomButton_released()
 {
     //change back to normal background.
     ui->bottomButton->setChecked(false);
+}
 
+void MainWindow::resizeButtons() {
+//    ui->bottomButton->setIconSize(ui->bottomButton->size());
+
+    QSize topSize = ui->topButton->size();
+    topSize.setWidth(topSize.width() - 10);
+    topSize.setHeight(topSize.height() - 10);
+    ui->topButton->setIconSize(topSize);
+
+    QSize bottomSize = ui->bottomButton->size();
+    bottomSize.setWidth(bottomSize.width() - 10);
+    bottomSize.setHeight(bottomSize.height() - 10);
+    ui->bottomButton->setIconSize(bottomSize);
+
+    QSize centerSize = ui->centerButton->size();
+    centerSize.setWidth(centerSize.width() - 10);
+    centerSize.setHeight(centerSize.height() - 10);
+    ui->centerButton->setIconSize(centerSize);
+
+    QSize leftSize = ui->leftButton->size();
+    leftSize.setWidth(leftSize.width() - 10);
+    leftSize.setHeight(leftSize.height() - 10);
+    ui->leftButton->setIconSize(leftSize);
+
+    QSize rightSize = ui->rightButton->size();
+    rightSize.setWidth(rightSize.width() - 10);
+    rightSize.setHeight(rightSize.height() - 10);
+    ui->rightButton->setIconSize(rightSize);
+
+    qDebug("asdf");
 }
