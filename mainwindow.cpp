@@ -23,7 +23,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 {
    //MainWindow::resizeEvent(event);
    // Your code here.
-   qDebug("woo hoe bitch");
+   qDebug("woo hoo works!");
    resizeButtons();
 }
 
