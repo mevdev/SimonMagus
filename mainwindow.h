@@ -58,6 +58,7 @@ private:
     void loseGame();
 
     void doGameAnimation();
+    void doLoseAnimation();
     //
     void playSound(SimonColor simonColor);
     void resizeButtons();
@@ -66,7 +67,7 @@ private:
 
     void startSimonSaying();
     void callColor(SimonColor simonColor);
-
+    void reply(SimonColor replyColor);
 
     void actionNewGame();
     void yellowTap();

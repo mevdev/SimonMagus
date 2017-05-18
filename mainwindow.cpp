@@ -23,7 +23,6 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 {
    //MainWindow::resizeEvent(event);
    // Your code here.
-   qDebug("woo hoo works!");
    resizeButtons();
 }
 
@@ -72,12 +71,31 @@ void MainWindow::simonSay() {
         colorOffAll();
         SimonColor sayWhatNow = game->nextSimonSay();
         callColor(sayWhatNow);
+        qDebug("say");
     } else {
+        qDebug("now reply");
         timer->stop();
         delete timer;
         colorOffAll();
-        game->setGameMode(modeReplying);
+        game->setGameMode(modeReplying); //I think this is set in nextSimonSay anyway. but let's reset it anyway
     }
+}
+
+void MainWindow::reply(SimonColor replyColor) {
+    bool noLose = game->reply(replyColor);
+
+    if(game->isSimonSaying()) {
+        startSimonSaying();
+    }
+    if(!noLose) { //yep I'm aware the wording is dumb.
+        //you lose.
+        doLoseAnimation();
+    }
+}
+
+void MainWindow::doLoseAnimation() {
+    //ok do stuff er whatever.
+    doGameAnimation();
 }
 
 void MainWindow::yellowTap()
@@ -85,7 +103,7 @@ void MainWindow::yellowTap()
     ui->topButton->setChecked(true);
     playSound(yellow);
     if(game->amIReplying()) {
-        game->reply(yellow);
+        reply(yellow);
     }
 }
 
@@ -94,7 +112,7 @@ void MainWindow::redTap()
     ui->leftButton->setChecked(true);
     playSound(red);
     if(game->amIReplying()) {
-        game->reply(red);
+        reply(red);
     }
 }
 
@@ -103,7 +121,7 @@ void MainWindow::greenTap()
     ui->bottomButton->setChecked(true);
     playSound(green);
     if(game->amIReplying()) {
-        game->reply(green);
+        reply(green);
     }
 }
 
@@ -112,7 +130,7 @@ void MainWindow::orangeTap()
     ui->rightButton->setChecked(true);
     playSound(orange);
     if(game->amIReplying()) {
-        game->reply(orange);
+        reply(orange);
     }
 
 }
@@ -298,8 +316,6 @@ void MainWindow::resizeButtons() {
     rightSize.setWidth(rightSize.width() - 10);
     rightSize.setHeight(rightSize.height() - 10);
     ui->rightButton->setIconSize(rightSize);
-
-    qDebug("bingo bango");
 }
 
 void MainWindow::sleep(int millis)

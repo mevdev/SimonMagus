@@ -19,8 +19,8 @@ Game::Game()
 
     void Game::gameSetup() {
         gameMode = modeStartup;
-        simonFullCount = 0;
-        simonSayingCount = 0;
+        simonFullCount = 2;
+        simonSayingCount = 0; //
         simonReplyCount = 0;
 
         simonColorList.clear();
@@ -53,6 +53,7 @@ Game::Game()
     bool Game::reply(SimonColor replyColor) {
         //is it the correct reply?
         if(simonColorList[simonReplyCount] == replyColor) {
+            qDebug("reply");
             simonReplyCount += 1;
             if(simonReplyCount > simonFullCount){
                 //next level?
@@ -66,6 +67,7 @@ Game::Game()
         } else {
             //wrong
             gameMode = modeYouLost;
+            qDebug("You lose!");
             return false;
         }
     }
