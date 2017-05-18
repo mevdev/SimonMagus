@@ -7,6 +7,8 @@
 #include <QDebug>
 #include "game.h"
 #include <QList>
+#include <QTime>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +25,8 @@ public:
 
 private slots:
 
+    void simonSay();
+
     void on_leftButton_pressed();
 
     void on_leftButton_released();
@@ -38,6 +42,8 @@ private slots:
     void on_bottomButton_pressed();
 
     void on_bottomButton_released();
+
+    void on_centerButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -56,12 +62,19 @@ private:
     void playSound(SimonColor simonColor);
     void resizeButtons();
 
-    void on_actionNew_Game_triggered();
+    QTimer *timer;
+
+    void startSimonSaying();
+    void callColor(SimonColor simonColor);
+
+
+    void actionNewGame();
     void yellowTap();
     void redTap();
     void greenTap();
     void orangeTap();
 
+    void sleep(int millis);
 protected:
   virtual void resizeEvent(QResizeEvent *);
 };

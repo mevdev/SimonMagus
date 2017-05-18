@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setCentralWidget(ui->horizontalWidget);
     ui->horizontalWidget->setStyleSheet("background-color:black;");
+    ui->statusBar->hide();
     game = new Game();
 }
 
@@ -26,7 +27,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
    resizeButtons();
 }
 
-void MainWindow::on_actionNew_Game_triggered()
+void MainWindow::actionNewGame()
 {
     //new Game!
     game->gameSetup();
@@ -37,10 +38,51 @@ void MainWindow::on_actionNew_Game_triggered()
 void MainWindow::doGameAnimation() {
         //play all 4 right after each other.
         //
+        redTap();
+        sleep(400);
+
+        yellowTap();
+        sleep(300);
+
+        greenTap();
+        sleep(300);
+
+        orangeTap();
+        sleep(300);
+        //
+        redTap();
+        yellowTap();
+        greenTap();
+        orangeTap();
+        sleep(300);
+        colorOffAll();
+        game->finishStartupAnimation();
+        startSimonSaying();
+}
+
+void MainWindow::startSimonSaying() {
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()),
+        this, SLOT(simonSay()));
+    timer->start(400);
+}
+
+void MainWindow::simonSay() {
+    if(game->isSimonSaying()) {
+        colorOffAll();
+        SimonColor sayWhatNow = game->nextSimonSay();
+        callColor(sayWhatNow);
+    } else {
+        timer->stop();
+        delete timer;
+        colorOffAll();
+        game->setGameMode(modeReplying);
+    }
 }
 
 void MainWindow::yellowTap()
 {
+    ui->topButton->setChecked(true);
     playSound(yellow);
     if(game->amIReplying()) {
         game->reply(yellow);
@@ -49,6 +91,7 @@ void MainWindow::yellowTap()
 
 void MainWindow::redTap()
 {
+    ui->leftButton->setChecked(true);
     playSound(red);
     if(game->amIReplying()) {
         game->reply(red);
@@ -57,6 +100,7 @@ void MainWindow::redTap()
 
 void MainWindow::greenTap()
 {
+    ui->bottomButton->setChecked(true);
     playSound(green);
     if(game->amIReplying()) {
         game->reply(green);
@@ -65,6 +109,7 @@ void MainWindow::greenTap()
 
 void MainWindow::orangeTap()
 {
+    ui->rightButton->setChecked(true);
     playSound(orange);
     if(game->amIReplying()) {
         game->reply(orange);
@@ -73,8 +118,11 @@ void MainWindow::orangeTap()
 }
 //////
 void MainWindow::colorOffAll() {
-
     //set to '_off' suffix
+    ui->rightButton->setChecked(false);
+    ui->leftButton->setChecked(false);
+    ui->topButton->setChecked(false);
+    ui->bottomButton->setChecked(false);
 }
 
 
@@ -143,10 +191,26 @@ void MainWindow::playSound(SimonColor simonColor) {
     //To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
 }
 
+void MainWindow::callColor(SimonColor simonColor) {
+    switch(simonColor) {
+        case red:
+            redTap();
+        break;
+    case yellow:
+            yellowTap();
+        break;
+    case green:
+            greenTap();
+        break;
+    case orange:
+            orangeTap();
+        break;
+    }
+}
+
 void MainWindow::on_leftButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->leftButton->setChecked(true);
        redTap();
     }
 }
@@ -164,7 +228,6 @@ void MainWindow::on_leftButton_released()
 void MainWindow::on_topButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->topButton->setChecked(true);
         yellowTap();
     }
 }
@@ -180,7 +243,6 @@ void MainWindow::on_topButton_released()
 void MainWindow::on_rightButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->rightButton->setChecked(true);
         orangeTap();
     }
 }
@@ -196,10 +258,11 @@ void MainWindow::on_rightButton_released()
 void MainWindow::on_bottomButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->bottomButton->setChecked(true);
         greenTap();
     }
 }
+
+
 
 void MainWindow::on_bottomButton_released()
 {
@@ -237,4 +300,17 @@ void MainWindow::resizeButtons() {
     ui->rightButton->setIconSize(rightSize);
 
     qDebug("bingo bango");
+}
+
+void MainWindow::sleep(int millis)
+{
+    QTime dieTime= QTime::currentTime().addMSecs(millis);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
+void MainWindow::on_centerButton_clicked()
+{
+    //cancel stuff? naw
+    actionNewGame();
 }

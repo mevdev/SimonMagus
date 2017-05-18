@@ -58,6 +58,7 @@ Game::Game()
                 //next level?
                 simonReplyCount = 0;
                 simonSayingCount = 0;
+                simonFullCount += 1;
                 gameMode = modeSimonSaying;
                 //how do we know?
             }

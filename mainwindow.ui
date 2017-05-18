@@ -197,9 +197,9 @@
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
-         <normaloff>:/graphics/left_off.png</normaloff>
+         <normaloff>:/graphics/right_off.png</normaloff>
          <normalon>:/graphics/right_on.png</normalon>
-         <selectedon>:/graphics/right_on.png</selectedon>:/graphics/left_off.png</iconset>
+         <selectedon>:/graphics/right_on.png</selectedon>:/graphics/right_off.png</iconset>
        </property>
        <property name="iconSize">
         <size>
