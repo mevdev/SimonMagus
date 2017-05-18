@@ -1,28 +1,34 @@
 #ifndef GAME_H
 #define GAME_H
-
+#include <QList>
 
 enum SimonColor { red = 0, yellow = 1, green = 2, orange = 3 };
-enum GameMode { stopped, simonSaying, userReply, lost };
+enum GameMode { startup = 0, stopped = 1, simonSaying = 2, userReply = 3, lost = 4 };
 
 class Game
 {
 public:
     Game();
+    GameMode gameMode;
 
     bool addUserReply(SimonColor simonColor);
 
-    //QList<SimonColor> currentSimonColors(); //accessors
-    GameMode currentGameMode();
+    GameMode mode();
+    void setGameMode(GameMode mode);
+    void generateListOfColors();
+    void gameSetup();
+    void doStartupAnimation();
 
-    //How do I make reactive things for the UI?
-    //Maybe a messaging class?
+    bool isSimonSaying();
+    SimonColor nextSimonSay();
 
-    int simonCount;
+    int simonFullCount; //the full amount of colors
+    int simonSayingCount; //where simon is in saying.
+    int replyCount; //where user is at in the reply
+
+    QList<SimonColor> simonColorList;
+
 private:
-    bool simonSayingNow;
-    GameMode gameMode;
-    //
     //array of current Simon level. (pregenerate?)
     //array of user progress when replying
     //QList  as container? QList<SimonColor>

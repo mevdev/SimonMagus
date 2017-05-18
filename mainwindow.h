@@ -6,6 +6,7 @@
 #include <QProcess>
 #include <QDebug>
 #include "game.h"
+#include <QList>
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +22,6 @@ public:
     ~MainWindow();
 
 private slots:
-
 
     void on_leftButton_pressed();
 
@@ -42,6 +42,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     //QMediaPlayer player;
+
+    Game *game;
 
     void colorOffAll();
     void colorOn(SimonColor simonColor);

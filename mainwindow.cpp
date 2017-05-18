@@ -9,14 +9,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setCentralWidget(ui->horizontalWidget);
     ui->horizontalWidget->setStyleSheet("background-color:black;");
-
-
+    game = new Game();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    //delete player; //QObject is memory managed.
+    delete game;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -30,6 +29,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::on_actionNew_Game_triggered()
 {
     //new Game!
+    game->gameSetup();
 }
 
 void MainWindow::on_yellowButton_clicked()
@@ -62,130 +62,136 @@ void MainWindow::colorOn(SimonColor simonColor) {
     switch(simonColor) {
         case red:
         break;
-    case yellow:
+        case yellow:
         break;
-    case green:
+        case green:
         break;
-    case orange:
+        case orange:
         break;
     }
 }
 
 void MainWindow::playSound(SimonColor simonColor) {
     QString soundPath;
-    int gLed = 0;
-    int rLed = 0;
+    QString gLed = "0";
+    QString rLed = "0";
+    QString sharedPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/";
 
     switch(simonColor) {
         case red:
-        soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/0_e.wav";
-        rLed = 100;
-        gLed = 0;
+        soundPath = sharedPath + "0_e.wav";
+        rLed = "100";
+        gLed = "0";
         break;
     case yellow:
-        soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/1_a.wav";
-        rLed = 50;
-        gLed = 50;
+        soundPath = sharedPath + "1_a.wav";
+        rLed = "50";
+        gLed = "50";
         break;
     case green:
-        soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/2_cs.wav";
-        rLed = 0;
-        gLed = 100;
+        soundPath = sharedPath + "2_cs.wav";
+        rLed = "0";
+        gLed = "100";
         break;
     case orange:
-        soundPath = "/Users/rlinnema/Documents/TestCode/SimonMagus/simon_sounds/3_e.aiff";
-        rLed = 80;
-        gLed = 20;
+        soundPath = sharedPath + "3_e.wav";
+        rLed = "80";
+        gLed = "20";
         break;
     }
 
     QProcess process;
     process.startDetached("/bin/sh", QStringList()<< "-c"
                            << "afplay " + soundPath); //plays sound on a mac.
-    //exec
+    //on-device
     //aplay -vv audio.wav
-
    //also set light color!
-
-    //rLed, gLed
-    //To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
     //root@rwtwenty:/opt/sbin# echo 0 > /sys/class/leds/green_led/brightness
     //root@rwtwenty:/opt/sbin# echo 30 > /sys/class/leds/red_led/brightness
 
-
-    //native qt play sound.
-//    if(player == NULL) {
-//        player = new QMediaPlayer;
-//    } else {
-//        player->stop();
-//    }
-
-//    player->setMedia(QUrl::fromLocalFile(soundPath));
-//    player->setVolume(50);
-//    player->play();
+/*
+    process.startDetached("/bin/sh", QStringList()<< "-c"
+                           << "aplay -vv " + soundPath);
+    process.startDetached("/bin/sh", QStringList()<< "-c"
+                           << "echo "+ gLed + " > /sys/class/leds/green_led/brightness");
+    process.startDetached("/bin/sh", QStringList()<< "-c"
+                           << "echo "+ rLed + " > /sys/class/leds/red_led/brightness");
+*/
+    //rLed, gLed
+    //To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
 }
 
 void MainWindow::on_leftButton_pressed()
 {
-
-   ui->leftButton->setCheckable(true);
-   ui->leftButton->setChecked(true);
-   on_redButton_clicked();
+    if(!game->isSimonSaying()) {
+        ui->leftButton->setCheckable(true);
+        ui->leftButton->setChecked(true);
+       on_redButton_clicked();
+    }
 }
 
 void MainWindow::on_leftButton_released()
 {
-    //change back to normal background.
-    ui->leftButton->setChecked(false);
+    //change back to normal background
+    if(!game->isSimonSaying()) {
+        ui->leftButton->setChecked(false);
+    }
 }
 
 
 
 void MainWindow::on_topButton_pressed()
 {
-
-    ui->topButton->setCheckable(true);
-    ui->topButton->setChecked(true);
-    on_yellowButton_clicked();
+    if(!game->isSimonSaying()) {
+        ui->topButton->setCheckable(true);
+        ui->topButton->setChecked(true);
+        on_yellowButton_clicked();
+    }
 }
 
 void MainWindow::on_topButton_released()
 {
+    if(!game->isSimonSaying()) {
     //change back to normal background.
-    ui->topButton->setChecked(false);
-
+        ui->topButton->setChecked(false);
+    }
 }
 
 void MainWindow::on_rightButton_pressed()
 {
-
-    ui->rightButton->setCheckable(true);
-    ui->rightButton->setChecked(true);
-    on_orangeButton_clicked();
+    if(!game->isSimonSaying()) {
+        ui->rightButton->setCheckable(true);
+        ui->rightButton->setChecked(true);
+        on_orangeButton_clicked();
+    }
 }
 
 void MainWindow::on_rightButton_released()
 {
-    //change back to normal background.
-    ui->rightButton->setChecked(false);
-
+    if(!game->isSimonSaying()) {
+        //change back to normal background.
+        ui->rightButton->setChecked(false);
+    }
 }
 
 void MainWindow::on_bottomButton_pressed()
 {
-    ui->bottomButton->setChecked(true);
-    ui->bottomButton->setCheckable(true);
-    on_greenButton_clicked();
+    if(!game->isSimonSaying()) {
+        ui->bottomButton->setChecked(true);
+        ui->bottomButton->setCheckable(true);
+        on_greenButton_clicked();
+    }
 }
 
 void MainWindow::on_bottomButton_released()
 {
-    //change back to normal background.
-    ui->bottomButton->setChecked(false);
+    if(!game->isSimonSaying()) {
+        //change back to normal background.
+        ui->bottomButton->setChecked(false);
+    }
 }
 
 void MainWindow::resizeButtons() {
-//    ui->bottomButton->setIconSize(ui->bottomButton->size());
 
     QSize topSize = ui->topButton->size();
     topSize.setWidth(topSize.width() - 10);
@@ -212,5 +218,5 @@ void MainWindow::resizeButtons() {
     rightSize.setHeight(rightSize.height() - 10);
     ui->rightButton->setIconSize(rightSize);
 
-    qDebug("asdf");
+    qDebug("bingo bango");
 }
