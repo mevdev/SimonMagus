@@ -30,26 +30,46 @@ void MainWindow::on_actionNew_Game_triggered()
 {
     //new Game!
     game->gameSetup();
+    //QDebug("a newgame!");
+    doGameAnimation();
 }
 
-void MainWindow::on_yellowButton_clicked()
+void MainWindow::doGameAnimation() {
+        //play all 4 right after each other.
+        //
+}
+
+void MainWindow::yellowTap()
 {
     playSound(yellow);
+    if(game->amIReplying()) {
+        game->reply(yellow);
+    }
 }
 
-void MainWindow::on_redButton_clicked()
+void MainWindow::redTap()
 {
     playSound(red);
+    if(game->amIReplying()) {
+        game->reply(red);
+    }
 }
 
-void MainWindow::on_greenButton_clicked()
+void MainWindow::greenTap()
 {
     playSound(green);
+    if(game->amIReplying()) {
+        game->reply(green);
+    }
 }
 
-void MainWindow::on_orangeButton_clicked()
+void MainWindow::orangeTap()
 {
     playSound(orange);
+    if(game->amIReplying()) {
+        game->reply(orange);
+    }
+
 }
 //////
 void MainWindow::colorOffAll() {
@@ -103,12 +123,8 @@ void MainWindow::playSound(SimonColor simonColor) {
     QProcess process;
     process.startDetached("/bin/sh", QStringList()<< "-c"
                            << "afplay " + soundPath); //plays sound on a mac.
-    //on-device
-    //aplay -vv audio.wav
-   //also set light color!
-    //root@rwtwenty:/opt/sbin# echo 0 > /sys/class/leds/green_led/brightness
-    //root@rwtwenty:/opt/sbin# echo 30 > /sys/class/leds/red_led/brightness
 
+    //on-device
 /*
     process.startDetached("/bin/sh", QStringList()<< "-c"
                            << "aplay -vv " + soundPath);
@@ -117,6 +133,12 @@ void MainWindow::playSound(SimonColor simonColor) {
     process.startDetached("/bin/sh", QStringList()<< "-c"
                            << "echo "+ rLed + " > /sys/class/leds/red_led/brightness");
 */
+
+
+    //aplay -vv audio.wav
+   //also set light color!
+    //root@rwtwenty:/opt/sbin# echo 0 > /sys/class/leds/green_led/brightness
+    //root@rwtwenty:/opt/sbin# echo 30 > /sys/class/leds/red_led/brightness
     //rLed, gLed
     //To control the led Green and Red brightness, just write a number 0 - 100 to the following files: (from jihad)
 }
@@ -124,9 +146,8 @@ void MainWindow::playSound(SimonColor simonColor) {
 void MainWindow::on_leftButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->leftButton->setCheckable(true);
         ui->leftButton->setChecked(true);
-       on_redButton_clicked();
+       redTap();
     }
 }
 
@@ -143,9 +164,8 @@ void MainWindow::on_leftButton_released()
 void MainWindow::on_topButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->topButton->setCheckable(true);
         ui->topButton->setChecked(true);
-        on_yellowButton_clicked();
+        yellowTap();
     }
 }
 
@@ -160,9 +180,8 @@ void MainWindow::on_topButton_released()
 void MainWindow::on_rightButton_pressed()
 {
     if(!game->isSimonSaying()) {
-        ui->rightButton->setCheckable(true);
         ui->rightButton->setChecked(true);
-        on_orangeButton_clicked();
+        orangeTap();
     }
 }
 
@@ -178,8 +197,7 @@ void MainWindow::on_bottomButton_pressed()
 {
     if(!game->isSimonSaying()) {
         ui->bottomButton->setChecked(true);
-        ui->bottomButton->setCheckable(true);
-        on_greenButton_clicked();
+        greenTap();
     }
 }
 

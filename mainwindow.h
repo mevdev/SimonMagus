@@ -50,15 +50,17 @@ private:
     //Button buttonForColor(SimonColor simonColor);
     void startGame();
     void loseGame();
+
+    void doGameAnimation();
     //
     void playSound(SimonColor simonColor);
     void resizeButtons();
 
     void on_actionNew_Game_triggered();
-    void on_yellowButton_clicked();
-    void on_redButton_clicked();
-    void on_greenButton_clicked();
-    void on_orangeButton_clicked();
+    void yellowTap();
+    void redTap();
+    void greenTap();
+    void orangeTap();
 
 protected:
   virtual void resizeEvent(QResizeEvent *);

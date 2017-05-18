@@ -3,7 +3,7 @@
 #include <QList>
 
 enum SimonColor { red = 0, yellow = 1, green = 2, orange = 3 };
-enum GameMode { startup = 0, stopped = 1, simonSaying = 2, userReply = 3, lost = 4 };
+enum GameMode { modeStartup = 0, modeStopped = 1, modeSimonSaying = 2, modeReplying = 3, modeYouLost = 4 };
 
 class Game
 {
@@ -17,14 +17,17 @@ public:
     void setGameMode(GameMode mode);
     void generateListOfColors();
     void gameSetup();
-    void doStartupAnimation();
+    void finishStartupAnimation();
 
     bool isSimonSaying();
+    bool amIReplying();
+    bool reply(SimonColor replyColor);
     SimonColor nextSimonSay();
+
 
     int simonFullCount; //the full amount of colors
     int simonSayingCount; //where simon is in saying.
-    int replyCount; //where user is at in the reply
+    int simonReplyCount; //where user is at in the reply
 
     QList<SimonColor> simonColorList;
 

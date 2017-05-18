@@ -18,17 +18,17 @@ Game::Game()
     //keep track of array
 
     void Game::gameSetup() {
-        gameMode = startup;
+        gameMode = modeStartup;
         simonFullCount = 0;
         simonSayingCount = 0;
-        replyCount = 0;
+        simonReplyCount = 0;
 
         simonColorList.clear();
-        doStartupAnimation();
+        generateListOfColors();
     }
 
-    void Game::doStartupAnimation() {
-        gameMode = simonSaying;
+    void Game::finishStartupAnimation() {
+        gameMode = modeSimonSaying;
     }
 
     void Game::setGameMode(GameMode mode) {
@@ -43,16 +43,39 @@ Game::Game()
     }
 
     bool Game::isSimonSaying() {
-        return (gameMode == simonSaying);
+        return (gameMode == modeSimonSaying);
+    }
+
+    bool Game::amIReplying() {
+        return(gameMode == modeReplying);
+    }
+
+    bool Game::reply(SimonColor replyColor) {
+        //is it the correct reply?
+        if(simonColorList[simonReplyCount] == replyColor) {
+            simonReplyCount += 1;
+            if(simonReplyCount > simonFullCount){
+                //next level?
+                simonReplyCount = 0;
+                simonSayingCount = 0;
+                gameMode = modeSimonSaying;
+                //how do we know?
+            }
+            return true; //also check the gameMode when you're back there. Hey hey. otehr header, hey.
+        } else {
+            //wrong
+            gameMode = modeYouLost;
+            return false;
+        }
     }
 
     SimonColor Game::nextSimonSay() {
             SimonColor heresAColor = simonColorList[simonSayingCount];
             simonSayingCount += 1;
             if(simonSayingCount > simonFullCount) {
-                gameMode = userReply;
+                gameMode = modeReplying;
                 simonSayingCount = 0;
-                replyCount = 0;
+                simonReplyCount = 0;
             }
             return heresAColor;
     }
