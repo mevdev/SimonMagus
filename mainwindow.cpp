@@ -64,6 +64,7 @@ void MainWindow::startSimonSaying() {
     connect(timer, SIGNAL(timeout()),
         this, SLOT(simonSay()));
     timer->start(400);
+    qDebug("startSimonSaying");
 }
 
 void MainWindow::simonSay() {
@@ -95,7 +96,22 @@ void MainWindow::reply(SimonColor replyColor) {
 
 void MainWindow::doLoseAnimation() {
     //ok do stuff er whatever.
-    doGameAnimation();
+    //
+    redTap();
+    yellowTap();
+    greenTap();
+    orangeTap();
+    sleep(300);
+
+    colorOffAll();
+    sleep(300);
+    //
+    redTap();
+    yellowTap();
+    greenTap();
+    orangeTap();
+    sleep(300);
+    colorOffAll();
 }
 
 void MainWindow::yellowTap()
@@ -241,8 +257,6 @@ void MainWindow::on_leftButton_released()
     }
 }
 
-
-
 void MainWindow::on_topButton_pressed()
 {
     if(!game->isSimonSaying()) {
@@ -279,8 +293,6 @@ void MainWindow::on_bottomButton_pressed()
         greenTap();
     }
 }
-
-
 
 void MainWindow::on_bottomButton_released()
 {

@@ -3,7 +3,7 @@
 #include <QList>
 
 enum SimonColor { red = 0, yellow = 1, green = 2, orange = 3 };
-enum GameMode { modeStartup = 0, modeStopped = 1, modeSimonSaying = 2, modeReplying = 3, modeYouLost = 4 };
+enum GameMode { modeStartup = 0, modeStopped = 1, modeSimonSaying = 2, modeReadyToReply = 3, modeReplying = 4, modeYouLost = 5 };
 
 class Game
 {

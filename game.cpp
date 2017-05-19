@@ -36,9 +36,15 @@ Game::Game()
     }
 
     void Game::generateListOfColors() {
-        for(int i=0; i < 30; i++) {
+        SimonColor colorNext;
+        SimonColor colorLast;
+        for(int i=0; i < 50; i++) {
             int rando = qrand() % 3; //number of colors
-            simonColorList.append(static_cast<SimonColor>(rando));
+            colorNext = static_cast<SimonColor>(rando);
+            if(colorNext != colorLast) {
+                simonColorList.append(colorNext);
+                colorLast = colorNext;
+            }
         }
     }
 
@@ -73,10 +79,11 @@ Game::Game()
     }
 
     SimonColor Game::nextSimonSay() {
+        qDebug("nextSimonSay");
             SimonColor heresAColor = simonColorList[simonSayingCount];
             simonSayingCount += 1;
             if(simonSayingCount > simonFullCount) {
-                gameMode = modeReplying;
+                gameMode = modeReadyToReply;
                 simonSayingCount = 0;
                 simonReplyCount = 0;
             }
